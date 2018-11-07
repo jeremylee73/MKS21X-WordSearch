@@ -1,4 +1,4 @@
-public class WordSearch{
+public class WordSearch {
     private char[][]data;
 
     /**Initialize the grid to the size specified
@@ -7,10 +7,16 @@ public class WordSearch{
      *@param col is the starting width of the WordSearch
      */
     public WordSearch(int rows,int cols){
+      data = new char[rows][cols];
     }
 
     /**Set all values in the WordSearch to underscores'_'*/
     private void clear(){
+      for (int i=0; i<data.length; i++){
+        for (int j=0; j<data[i].length; j++){
+          data[i][j] = '_';
+        }
+      }
     }
 
     /**Each row is a new line, there is a space between each letter
@@ -18,6 +24,18 @@ public class WordSearch{
      *separated by newlines.
      */
     public String toString(){
+      String ans = "";
+      for (int i=0; i<data.length; i++){
+        for (int j=0; j<data[i].length; j++){
+          if (j != data[i].length-1){
+            ans += data[i][j] + " ";
+          } else {
+            ans += data[i][j];
+          }
+        }
+        ans += "/n";
+      }
+      return ans;
     }
 
 
@@ -33,6 +51,16 @@ public class WordSearch{
      * and the board is NOT modified.
      */
     public boolean addWordHorizontal(String word,int row, int col){
+      for (int i=0; i<word.length(); i++){
+        if ((col + i) >= data[row].length || data[row][col+i] != '_'){
+          return false;
+        }
+      }
+
+      for (int i=0; i<word.length(); i++){
+        data[row][col+i] = word.charAt(i);
+      }
+      return true;
     }
 
    /**Attempts to add a given word to the specified position of the WordGrid.
@@ -47,5 +75,15 @@ public class WordSearch{
      *and the board is NOT modified.
      */
     public boolean addWordVertical(String word,int row, int col){
+      for (int i=0; i<word.length(); i++){
+        if ((row + i) >= data.length || data[row+i][col] != '_'){
+          return false;
+        }
+      }
+
+      for (int i=0; i<word.length(); i++){
+        data[row+i][col] = word.charAt(i);
+      }
+      return true;
     }
 }
