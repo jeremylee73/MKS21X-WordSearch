@@ -22,6 +22,7 @@ public class WordSearch {
      */
     public WordSearch(int rows,int cols){
       data = new char[rows][cols];
+      clear();
     }
 
     /**Set all values in the WordSearch to underscores'_'*/
@@ -37,18 +38,17 @@ public class WordSearch {
      *@return a String with each character separated by spaces, and rows
      *separated by newlines.
      */
-    public String toString(){
+     public String toString(){
       String ans = "";
-      for (int i=0; i<data.length; i++){
-        ans += "|"
-        for (int j=0; j<data[i].length; j++){
-          if (j != data[i].length-1){
-            ans += data[i][j] + " ";
-          } else {
-            ans += data[i][j] + "|";
+      for (int i = 0; i < data.length; i++) {
+        ans += "|";
+        for (int j = 0; j < data[i].length; j++) {
+          ans += data[i][j];
+          if (j != data[i].length - 1) {
+            ans += " ";
           }
         }
-        ans += "/n";
+        ans += "|\n";
       }
       return ans;
     }
@@ -65,9 +65,9 @@ public class WordSearch {
      * or there are overlapping letters that do not match, then false is returned
      * and the board is NOT modified.
      */
-    public boolean addWordHorizontal(String word,int row, int col){
+    public boolean addWordHorizontal(String word, int row, int col){
       for (int i=0; i<word.length(); i++){
-        if ((col + i) >= data[row].length || data[row][col+i] != '_'){
+        if ((col + i) >= data[row].length || (data[row][col+i] != '_' && data[row][col+i] != word.charAt(i))){
           return false;
         }
       }
