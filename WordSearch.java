@@ -40,11 +40,12 @@ public class WordSearch {
     public String toString(){
       String ans = "";
       for (int i=0; i<data.length; i++){
+        ans += "|"
         for (int j=0; j<data[i].length; j++){
           if (j != data[i].length-1){
             ans += data[i][j] + " ";
           } else {
-            ans += data[i][j];
+            ans += data[i][j] + "|";
           }
         }
         ans += "/n";
@@ -170,4 +171,19 @@ public class WordSearch {
       *[ 1,0] would add downwards because (row+1), with no col change
       *[ 0,-1] would add towards the left because (col - 1), with no row change
       */
+
+      private void addAllWords(){
+        for (int i=0; i<wordsToAdd.size(); i++){
+          for (int j=0; j<1000; j++){
+            int colI = randgen.nextInt(3) - 1;
+            int rowI = randgen.nextInt(3) - 1;
+            int row = randgen.nextInt(data.length);
+            int col = randgen.nextInt(data[0].length);
+            if (addWord(wordsToAdd.get(i), row, col, rowI, colI)){
+              i++;
+              j = 1000;
+            }
+          }
+        }
+      }
 }
