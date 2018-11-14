@@ -15,15 +15,43 @@ public class WordSearch {
     //all words that were successfully added get moved into wordsAdded.
     private ArrayList<String>wordsAdded;
 
+    public void getWords(String filename){
+      try {
+        File f = new File(filename);
+        Scanner in = new Scanner(f);
+        wordsToAdd = new ArrayList<>();
+        wordsAdded = new ArrayList<>();
+        while (in.hasNext()) {
+          wordsToAdd.add(in.nextLine().toUpperCase());
+        }
+      } catch (FileNotFoundException e) {
+        System.out.println("File Not Found");
+      }
+    }
+
     /**Initialize the grid to the size specified
      *and fill all of the positions with '_'
      *@param row is the starting height of the WordSearch
      *@param col is the starting width of the WordSearch
      */
-    public WordSearch(int rows,int cols){
-      data = new char[rows][cols];
-      clear();
-    }
+     public WordSearch(int rows, int cols, String fileName) {
+       randgen = new Random();
+       seed = randgen.nextInt();
+       randgen = new Random(seed);
+       data = new char[rows][cols];
+       clear();
+       getWords(fileName);
+       addAllWords();
+     }
+
+     public WordSearch(int rows, int cols, String fileName, int randSeed) {
+       seed = randSeed;
+       randgen = new Random(seed);
+       data = new char[rows][cols];
+       clear();
+       getWords(fileName);
+       addAllWords();
+     }
 
     /**Set all values in the WordSearch to underscores'_'*/
     private void clear(){
@@ -138,7 +166,7 @@ public class WordSearch {
      *        false when: the word doesn't fit, OR  rowchange and colchange are both 0,
      *        OR there are overlapping letters that do not match
      */
-     private boolean addWord(String word,int row, int col, int rowIncrement, int colIncrement){
+     public boolean addWord(String word,int row, int col, int rowIncrement, int colIncrement){
        if (rowIncrement == 0 && colIncrement == 0) {
           return false;
         }
@@ -172,7 +200,7 @@ public class WordSearch {
       *[ 0,-1] would add towards the left because (col - 1), with no row change
       */
 
-      private void addAllWords(){
+      public void addAllWords(){
         for (int i=0; i<wordsToAdd.size(); i++){
           for (int j=0; j<1000; j++){
             int colI = randgen.nextInt(3) - 1;
