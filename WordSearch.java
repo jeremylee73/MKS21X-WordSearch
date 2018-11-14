@@ -44,6 +44,11 @@ public class WordSearch {
        addAllWords();
      }
 
+     public WordSearch(int rows, int cols) {
+       data = new char[rows][cols];
+       clear();
+     }
+
      public WordSearch(int rows, int cols, String fileName, int randSeed) {
        seed = randSeed;
        randgen = new Random(seed);
