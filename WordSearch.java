@@ -6,6 +6,10 @@ public class WordSearch {
     //the random seed used to produce this WordSearch
     private int seed;
 
+    private char[][]answer;
+
+    private boolean check = false;
+
     //a random Object to unify your random calls
     private Random randgen;
 
@@ -14,6 +18,10 @@ public class WordSearch {
 
     //all words that were successfully added get moved into wordsAdded.
     private ArrayList<String>wordsAdded;
+
+    public int getSeed(){
+      return seed;
+    }
 
     public void getWords(String filename){
       try {
@@ -58,6 +66,20 @@ public class WordSearch {
        addAllWords();
      }
 
+     public WordSearch(int rows, int cols, String filename, int randSeed, String key){
+       seed = randSeed;
+       randgen = new Random(seed);
+       data = new char[rows][cols];
+       answer = new char[rows][cols];
+       clear();
+       getWords(filename);
+       addAllWords();
+       if (key.equals("key")){
+         addLetters();
+         check = true;
+       }
+     }
+
     /**Set all values in the WordSearch to underscores'_'*/
     private void clear(){
       for (int i=0; i<data.length; i++){
@@ -72,18 +94,33 @@ public class WordSearch {
      *separated by newlines.
      */
      public String toString(){
-      String ans = "";
-      for (int i = 0; i < data.length; i++) {
-        ans += "|";
-        for (int j = 0; j < data[i].length; j++) {
-          ans += data[i][j];
-          if (j != data[i].length - 1) {
-            ans += " ";
+      if (!check){
+        String ans = "";
+        for (int i = 0; i < data.length; i++) {
+          ans += "|";
+          for (int j = 0; j < data[i].length; j++) {
+            ans += data[i][j];
+            if (j != data[i].length - 1) {
+              ans += " ";
+            }
           }
+          ans += "|\n";
         }
-        ans += "|\n";
+        return ans;
+      } else {
+        String ans = "";
+        for (int i = 0; i < answer.length; i++) {
+          ans += "|";
+          for (int j = 0; j < answer[i].length; j++) {
+            ans += answer[i][j];
+            if (j != answer[i].length - 1) {
+              ans += " ";
+            }
+          }
+          ans += "|\n";
+        }
+        return ans;
       }
-      return ans;
     }
 
 
@@ -215,6 +252,19 @@ public class WordSearch {
             if (addWord(wordsToAdd.get(i), row, col, rowI, colI)){
               i++;
               j = 1000;
+            }
+          }
+        }
+      }
+
+      public void addLetters(){
+        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        for (int i=0; i<data.length; i++){
+          for (int j=0; j<data[i].length; j++){
+            if (data[i][j] != '_'){
+              answer[i][j] = data[i][j];
+            } else {
+              answer[i][j] = alphabet.charAt(randgen.nextInt(26));
             }
           }
         }

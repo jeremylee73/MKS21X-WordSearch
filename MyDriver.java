@@ -1,11 +1,32 @@
 public class MyDriver {
 
   public static void main(String[] args) {
-    if(args.length == 2) {
+    if (args.length == 4){
+      WordSearch WSe2 = new WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]),"words.txt", Integer.parseInt(args[2]), args[3]);
+
+      System.out.println("WordSearch WSe2 = new WordSearch("+args[0]+", "+args[1]+", words.txt, "+args[2]+", "+args[3]+")");
+      System.out.println("Seed: "+args[2]);
+      for (int i=0; i<100000000; i++){
+        WSe2.addAllWords();
+      }
+      System.out.println(WSe2);
+      // hopefully filled WordSearch
+    } else if (args.length == 3){
+      WordSearch WSe2 = new WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]),"words.txt", Integer.parseInt(args[2]));
+
+      System.out.println("WordSearch WSe2 = new WordSearch("+args[0]+", "+args[1]+", words.txt, "+args[2]+")");
+      System.out.println("Seed: "+args[2]);
+      for (int i=0; i<100000000; i++){
+        WSe2.addAllWords();
+      }
+      System.out.println(WSe2);
+      // hopefully filled WordSearch
+    } else if(args.length == 2) {
       WordSearch WSe2 = new WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]),"words.txt");
 
-      System.out.println("WordSearch WSe2 = new WordSearch(args[0],args[1],\"words.txt\")");
-      for (int i=0; i<100000; i++){
+      System.out.println("WordSearch WSe2 = new WordSearch("+args[0]+", "+args[1]+", words.txt)");
+      System.out.println("Seed: "+WSe2.getSeed());
+      for (int i=0; i<100000000; i++){
         WSe2.addAllWords();
       }
       System.out.println(WSe2);
@@ -21,7 +42,6 @@ public class MyDriver {
 
     } else {
       System.out.println("INVALID INPUT:\nDriver_Test class only needs 2 int terminal line args");
-
     }
 
     /*
