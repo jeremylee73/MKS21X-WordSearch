@@ -50,11 +50,7 @@ public class WordSearch {
        clear();
        getWords(fileName);
        addAllWords();
-     }
-
-     public WordSearch(int rows, int cols) {
-       data = new char[rows][cols];
-       clear();
+       addLetters();
      }
 
      public WordSearch(int rows, int cols, String fileName, int randSeed) {
@@ -64,6 +60,7 @@ public class WordSearch {
        clear();
        getWords(fileName);
        addAllWords();
+       addLetters();
      }
 
      public WordSearch(int rows, int cols, String filename, int randSeed, String key){
@@ -74,8 +71,9 @@ public class WordSearch {
        clear();
        getWords(filename);
        addAllWords();
-       if (key.equals("key")){
+       if (!(key.equals("key"))){
          addLetters();
+       } else{
          check = true;
        }
      }
@@ -85,6 +83,9 @@ public class WordSearch {
       for (int i=0; i<data.length; i++){
         for (int j=0; j<data[i].length; j++){
           data[i][j] = '_';
+          if (check){
+            answer[i][j] = '_';
+          }
         }
       }
     }
@@ -259,14 +260,42 @@ public class WordSearch {
 
       public void addLetters(){
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        Random rng = new Random();
         for (int i=0; i<data.length; i++){
           for (int j=0; j<data[i].length; j++){
             if (data[i][j] != '_'){
               answer[i][j] = data[i][j];
             } else {
-              answer[i][j] = alphabet.charAt(randgen.nextInt(26));
+              answer[i][j] = alphabet.charAt(rng.nextInt()%26);
             }
           }
+        }
+      }
+
+      public static void main(String[]args){
+        if(args.length < 3) {
+          System.out.println("INVALID INPUT:\nWordSearch rows cols filename randomSeed answers ");
+        } else if (args.length == 3){
+          WordSearch WSe2 = new WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]),args[2]);
+
+          System.out.println("WordSearch WSe2 = new WordSearch("+args[0]+", "+args[1]+", "+args[2]+")");
+          System.out.println("Seed: "+WSe2.getSeed());
+          System.out.println(WSe2);
+          // hopefully filled WordSearch
+        } else if (args.length == 4){
+          WordSearch WSe2 = new WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]),args[2], Integer.parseInt(args[3]));
+
+          System.out.println("WordSearch WSe2 = new WordSearch("+args[0]+", "+args[1]+", "+args[2]+", "+args[3]+")");
+          System.out.println("Seed: "+args[3]);
+          System.out.println(WSe2);
+          // hopefully filled WordSearch
+        } else if (args.length == 5){
+          WordSearch WSe2 = new WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]), args[2], Integer.parseInt(args[3]), args[4]);
+
+          System.out.println("WordSearch WSe2 = new WordSearch("+args[0]+", "+args[1]+", "+args[2]+", "+args[3]+", "+args[4]+")");
+          System.out.println("Seed: "+args[3]);
+          System.out.println(WSe2);
+          // hopefully filled WordSearch
         }
       }
 }
