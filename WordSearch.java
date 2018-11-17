@@ -47,6 +47,7 @@ public class WordSearch {
        seed = randgen.nextInt();
        randgen = new Random(seed);
        data = new char[rows][cols];
+       answer = new char[rows][cols];
        clear();
        getWords(fileName);
        addAllWords();
@@ -57,6 +58,7 @@ public class WordSearch {
        seed = randSeed;
        randgen = new Random(seed);
        data = new char[rows][cols];
+       answer = new char[rows][cols];
        clear();
        getWords(fileName);
        addAllWords();
@@ -68,14 +70,15 @@ public class WordSearch {
        randgen = new Random(seed);
        data = new char[rows][cols];
        answer = new char[rows][cols];
-       clear();
+
        getWords(filename);
-       addAllWords();
        if (!(key.equals("key"))){
          addLetters();
        } else{
          check = true;
        }
+       clear();
+       addAllWords();
      }
 
     /**Set all values in the WordSearch to underscores'_'*/
@@ -229,6 +232,7 @@ public class WordSearch {
         rowI = row;
         for (int i=0; i<word.length(); i++){
           data[rowI][colI] = word.charAt(i);
+          answer[rowI][colI] = word.charAt(i);
           rowI += rowIncrement;
           colI += colIncrement;
         }
@@ -260,13 +264,10 @@ public class WordSearch {
 
       public void addLetters(){
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        Random rng = new Random();
         for (int i=0; i<data.length; i++){
           for (int j=0; j<data[i].length; j++){
-            if (data[i][j] != '_'){
-              answer[i][j] = data[i][j];
-            } else {
-              answer[i][j] = alphabet.charAt(rng.nextInt()%26);
+            if (data[i][j] == '_'){
+              data[i][j] = alphabet.charAt(Math.abs(randgen.nextInt())%26);
             }
           }
         }
